@@ -19,6 +19,17 @@ return {
           leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
         },
       },
+      window = {
+        position = "current",
+        width = 40,
+      },
+      filesystem = {
+        follow_current_file = {
+        enabled = true,  -- automatically focus current file
+        leave_dirs_open = false,
+      },
+  },
     })
+    vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { desc = "Toggle Neo-tree" })
   end,
 }
