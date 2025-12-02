@@ -1,4 +1,5 @@
 require("config.lazy")
+require("config.keymaps")
 
 vim.g.mapleader = " "
 vim.opt.number = true
@@ -16,3 +17,7 @@ vim.opt.signcolumn = "yes"
 vim.opt.colorcolumn = "80"
 
 vim.opt.shell = 'nu'
+
+vim.diagnostic.config({
+  virtual_text = true,
+})
