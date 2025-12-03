@@ -18,17 +18,17 @@ return {
   lazy = false,
   keys = {
     {
-      "<leader>fc", -- try it if you didn't it is a banger keybinding for a picker
+      "ffc", -- try it if you didn't it is a banger keybinding for a picker
       function() require('fff').find_files() end,
       desc = 'FFFind files from current dir',
     },
     {
-      "<leader>ff", -- try it if you didn't it is a banger keybinding for a picker
+      "ffg", -- try it if you didn't it is a banger keybinding for a picker
       function() require('fff').find_in_git_root() end,
       desc = 'FFFind files from git root',
     },
     {
-      "<leader>fd", -- try it if you didn't it is a banger keybinding for a picker
+      "fff", -- try it if you didn't it is a banger keybinding for a picker
       function() 
         if vim.g.my_root_dir == nil then
           return
@@ -39,7 +39,7 @@ return {
       desc = 'FFFind files from root',
     },
     {
-      "<leader>fs",
+      "<leader>r",
       function()
         vim.g.my_root_dir = require("oil").get_current_dir()
       end,
