@@ -12,5 +12,6 @@ return {
       {"<Leader>svim", snap.config.vimgrep {}, desc = "Search VIM Configs"},
 --     {"<Leader>s/", snap.config.file {producer = "vim.currentbuffer"}, desc = "Search current file"}
     })
-  end
+  end,
+  enabled = false
 }
