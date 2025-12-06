@@ -21,3 +21,11 @@ vim.opt.shell = 'nu'
 vim.diagnostic.config({
   virtual_text = true,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true   -- optional: break on words, not characters
+  end,
+})

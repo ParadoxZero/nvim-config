@@ -8,5 +8,5 @@ return {
        {'<leader>y', '<Plug>OSCYankVisual', desc = "Copy to system Clipboard", mode = 'v'}
       })
     end
-  }
+  },
 }

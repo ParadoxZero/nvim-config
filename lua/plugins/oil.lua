@@ -22,6 +22,9 @@ return {
 			end
 
 			require("oil").setup({
+				view_options = {
+					show_hidden = true,
+				},
 				win_options = {
 					winbar = "%!v:lua.get_oil_winbar()",
 					signcolumn = "yes:2",

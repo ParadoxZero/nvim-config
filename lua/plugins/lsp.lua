@@ -25,18 +25,47 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = { "williamboman/mason-lspconfig.nvim" },
+		event = { "BufReadPre", "BufNewFile" },
+		keys = {
+			{ "gd", vim.lsp.buf.definition, { noremap = true, silent = true }, desc = "Go to definition" },
+			{ "gD", vim.lsp.buf.declaration, { noremap = true, silent = true }, desc = "Go to declaration" },
+			{ "gi", vim.lsp.buf.implementation, { noremap = true, silent = true }, desc = "Go to impl" },
+			{ "gr", vim.lsp.buf.references, { noremap = true, silent = true }, desc = "Go to refs" },
+			{ "<C-k>", vim.lsp.buf.signature_help, { noremap = true, silent = true }, desc = "Signature help" },
+			{ "<leader>ck", vim.lsp.buf.hover, { noremap = true, silent = true }, desc = "Hover Action" },
+			{ "<leader>cn", vim.lsp.buf.rename, { noremap = true, silent = true }, desc = "Rename symbol" },
+			{ "<leader>ca", vim.lsp.buf.code_action, { noremap = true, silent = true }, desc = "Code Action" },
+			{
+				"<leader>cf",
+				function()
+					vim.lsp.buf.format({ async = true })
+				end,
+				{ noremap = true, silent = true },
+				desc = "Format code",
+			},
+		},
+
 		config = function()
 			-- Setup clangd with Chromium defaults
+			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			capabilities.textDocument.foldingRange = {
+				dynamicRegistration = false,
+				lineFoldingOnly = true,
+			}
+
 			vim.lsp.config("clangd", {
 				cmd = {
 					"clangd",
+					"--background-index",
+					"--cross-file-rename",
+          "--clang-tidy",
 				},
 				init_options = {
 					usePlaceholders = true,
 					completeUnimported = true,
 					clangdFileStatus = true,
 				},
-				capabilities = require("cmp_nvim_lsp").default_capabilities(),
+				capabilities = capabilities,
 				on_attach = function(client, bufnr)
 					-- Enable inlay hints for type hints
 					if client.server_capabilities.inlayHintProvider then
@@ -56,27 +85,15 @@ return {
 			})
 			vim.lsp.enable("clangd")
 			vim.lsp.enable("emmylua_ls")
-			-- Keymaps for LSP features
-			local opts = {  noremap = true, silent = true }
-			local wk = require("which-key")
-			wk.add({
-				{ "gd", vim.lsp.buf.definition, opts, desc = "Go to definition" },
-				{ "gD", vim.lsp.buf.declaration, opts, desc = "Go to declaration" },
-				{ "gi", vim.lsp.buf.implementation, opts, desc = "Go to impl" },
-				{ "gr", vim.lsp.buf.references, opts, desc = "Go to refs" },
-				{ "<leader>K", vim.lsp.buf.hover, opts },
-				{ "<C-k>", vim.lsp.buf.signature_help, opts, desc = "Signature help" },
-				{ "<leader>rn", vim.lsp.buf.rename, opts, desc = "Rename symbol" },
-				{ "<leader>ca", vim.lsp.buf.code_action, opts, desc = "Code Action" },
-				{
-					"<leader>f",
-					function()
-						vim.lsp.buf.format({ async = true })
-					end,
-					opts,
-					desc = "Format code",
-				},
-			})
+
+			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+			-- local language_servers = vim.lsp.get_clients() -- or list servers manually like {'gopls', 'clangd'}
+			-- for _, ls in ipairs(language_servers) do
+			-- 	require("lspconfig")[ls].setup({
+			-- 		capabilities = capabilities,
+			-- 		-- you can add other fields for setting up lsp server in this table
+			-- 	})
+			-- end
 		end,
 	},
 
